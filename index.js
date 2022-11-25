@@ -13,6 +13,7 @@ const startGame = async (chatId) => {
     await bot.sendMessage(chatId, 'теперь я загадаю цифру от 0 до 9, и ты должен его угадать');
     const randomNumber = Math.floor(Math.random() * 10)
     chats[chatId] = randomNumber;
+    console.log(chats)
     await bot.sendMessage(chatId ,'Отгадывай', gameOptions);
 }
 
@@ -24,11 +25,11 @@ const start = () => {
         {command: "/info" , description: "получить информацию о пользователе"},
         {command: "/game" , description: "игра угадай цифру"},
     ]);
-    
+
     bot.on('message', async msg => {
         const text = msg.text;
         const chatId = msg.chat.id;
-    
+
         if (text === '/start') {
             return bot.sendMessage(chatId, `Добро пожаловать в бота!`);
         }
@@ -47,13 +48,15 @@ const start = () => {
         if(data === '/again'){
             return startGame(chatId)
         }
-        
-        if(data === chats[chatId]){
+
+        if(data == chats[chatId]){
             return bot.sendMessage(chatId, `Поздравляю, ты отгадал цифру ${chats[chatId]}`, againOptions);
         } else {
             return bot.sendMessage(chatId, `К сожилению ты не угадал, бот загадал цифру ${chats[chatId]} `, againOptions);
         }
     })
-    
+
 }
 start();
+
+
